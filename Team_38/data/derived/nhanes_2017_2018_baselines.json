@@ -1,0 +1,96 @@
+{
+  "fit_version": "nhanes-2017-2018-bpx-v1",
+  "source": {
+    "dataset": "CDC NHANES 2017-2018 Blood Pressure (BPX_J)",
+    "bp_file": "data\\secondary\\NHANES_2017_2018_BPX_J.XPT",
+    "demographics_file": "data\\secondary\\NHANES_2017_2018_DEMO_J.XPT",
+    "population": "non-institutionalised US examination participants aged 18+",
+    "scope": "community baseline only; not a deterioration trajectory source"
+  },
+  "baseline_by_age_sex": {
+    "40_to_64_female": {
+      "heart_rate": {
+        "median": 70.0,
+        "n": 1135
+      },
+      "systolic_bp": {
+        "median": 126.0,
+        "n": 1135
+      },
+      "diastolic_bp": {
+        "median": 74.0,
+        "n": 1135
+      }
+    },
+    "40_to_64_male": {
+      "heart_rate": {
+        "median": 70.0,
+        "n": 1049
+      },
+      "systolic_bp": {
+        "median": 126.0,
+        "n": 1046
+      },
+      "diastolic_bp": {
+        "median": 78.0,
+        "n": 1046
+      }
+    },
+    "65_plus_female": {
+      "heart_rate": {
+        "median": 70.0,
+        "n": 651
+      },
+      "systolic_bp": {
+        "median": 140.0,
+        "n": 644
+      },
+      "diastolic_bp": {
+        "median": 68.0,
+        "n": 644
+      }
+    },
+    "65_plus_male": {
+      "heart_rate": {
+        "median": 66.0,
+        "n": 680
+      },
+      "systolic_bp": {
+        "median": 134.0,
+        "n": 677
+      },
+      "diastolic_bp": {
+        "median": 70.0,
+        "n": 677
+      }
+    },
+    "under_40_female": {
+      "heart_rate": {
+        "median": 74.0,
+        "n": 926
+      },
+      "systolic_bp": {
+        "median": 110.0,
+        "n": 921
+      },
+      "diastolic_bp": {
+        "median": 66.0,
+        "n": 921
+      }
+    },
+    "under_40_male": {
+      "heart_rate": {
+        "median": 70.0,
+        "n": 828
+      },
+      "systolic_bp": {
+        "median": 118.0,
+        "n": 824
+      },
+      "diastolic_bp": {
+        "median": 72.0,
+        "n": 824
+      }
+    }
+  }
+}

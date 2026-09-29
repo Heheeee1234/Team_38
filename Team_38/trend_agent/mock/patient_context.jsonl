@@ -1,0 +1,1 @@
+{"schema_version":"1.0","event_id":"ctx-p001","event_time":"2026-09-26T08:00:00+00:00","patient_id":"SYN-0001","run_id":"trend-demo","source":"synthetic-ehr-profile","payload":{"age":68,"sex":"female","relevant_history":["hypertension"],"current_medications":["antihypertensive"],"recent_labs":{"creatinine_mg_dl":1.0,"wbc_k_ul":8.2}}}

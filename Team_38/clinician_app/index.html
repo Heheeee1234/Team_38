@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CareSignal | Clinician review</title>
+  <style>
+    :root{font-family:Inter,ui-sans-serif,system-ui,"Segoe UI",sans-serif;color:#142b3a;background:#edf3f8;font-size:14px}
+    *{box-sizing:border-box}body{margin:0}header{height:64px;background:#fff;border-bottom:1px solid #dce5ec;display:flex;align-items:center;justify-content:space-between;padding:0 max(22px,calc((100vw - 1280px)/2));position:sticky;top:0;z-index:2}
+    .brand{font-weight:750;font-size:17px}.brand small{font-weight:450;color:#71818e;margin-left:8px}.mode{font-size:11px;font-weight:700;color:#654a0b;background:#fff2d4;padding:6px 10px;border-radius:20px}
+    main{max-width:1280px;padding:24px;margin:auto}.intro{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.intro h1{font-size:24px;margin:2px 0}.intro p{color:#647684;margin:0}.button{border:1px solid #d7e1e8;background:white;color:#244253;border-radius:8px;padding:9px 12px;font:inherit;font-weight:650;cursor:pointer}.button:hover{background:#f4f8fb}.notice{padding:11px 14px;background:#fff8e8;border:1px solid #f0deb2;border-radius:9px;color:#70561d;margin-bottom:16px;font-size:12px}
+    .layout{display:grid;grid-template-columns:310px minmax(0,1fr);gap:16px;align-items:start}.panel{background:#fff;border:1px solid #dce5ec;border-radius:12px;overflow:hidden;box-shadow:0 5px 20px #16384a0a}.panel-title{padding:14px 16px;border-bottom:1px solid #e6edf2;display:flex;justify-content:space-between;align-items:center;font-weight:700}.patient-search{padding:11px 13px;border-bottom:1px solid #e6edf2}.patient-search input,.reason input{width:100%;padding:9px 10px;border:1px solid #dce5ec;border-radius:7px;font:inherit}.patient-list{max-height:72vh;overflow:auto}.patient{display:block;width:100%;text-align:left;padding:13px 14px;border:0;border-bottom:1px solid #edf1f4;background:white;cursor:pointer;color:inherit}.patient:hover,.patient.selected{background:#eff8fb}.patient.selected{box-shadow:inset 3px 0 #00abe4}.patient-row{display:flex;justify-content:space-between;gap:8px}.priority{font-size:10px;font-weight:750;padding:3px 7px;border-radius:12px;background:#edf1f3}.priority.High{background:#feeeee;color:#b33d3d}.priority.Medium{background:#fff2d7;color:#8c5d0c}.patient-meta{font-size:11px;color:#687c8a;margin-top:5px}
+    .empty{padding:48px 18px;text-align:center;color:#738491}.detail-head{padding:17px 20px;border-bottom:1px solid #e6edf2;display:flex;justify-content:space-between;gap:15px}.detail-head h2{margin:0 0 3px}.muted{color:#70818e;font-size:12px}.detail-content{padding:18px 20px}.section{margin-bottom:17px}.section h3{margin:0 0 9px;font-size:11px;text-transform:uppercase;letter-spacing:.75px;color:#687c8a}.vitals{display:grid;grid-template-columns:repeat(5,minmax(100px,1fr));gap:8px}.vital,.agent,.p4{border:1px solid #e1e9ef;border-radius:9px;padding:11px}.vital-label{font-size:10px;color:#70818e}.vital-value{font-size:19px;font-weight:750;margin:4px 0}.vital-base{font-size:10px;color:#70818e}.columns{display:grid;grid-template-columns:1fr 1fr;gap:12px}.agent-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.agent strong{display:block;margin-bottom:5px}.agent p,.p4 p{margin:4px 0;color:#536a79;font-size:12px;line-height:1.5}.trend-table{width:100%;border-collapse:collapse;font-size:11px}.trend-table td,.trend-table th{text-align:left;border-bottom:1px solid #edf1f4;padding:6px}.factor{font-size:12px;padding:5px 0;color:#415967}.p4{background:#fff8e8;border-color:#efdfb6}.actions{border-top:1px solid #e6edf2;padding:15px 20px}.action-buttons{display:flex;gap:8px;flex-wrap:wrap;margin:9px 0}.action-buttons .button:first-child{background:#00abe4;border-color:#00abe4;color:#102433}.action-buttons .dismiss{color:#a33}.reason{display:flex;gap:8px;margin-top:9px}.reason input{flex:1}.audit{margin-top:16px}.audit-list{padding:5px 16px}.audit-row{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #edf1f4;font-size:11px}.audit-row:last-child{border:0}.error{color:#a33;padding:14px}
+    @media(max-width:850px){main{padding:15px}.layout{grid-template-columns:1fr}.patient-list{max-height:250px}.vitals{grid-template-columns:repeat(2,1fr)}.columns,.agent-list{grid-template-columns:1fr}.intro{align-items:flex-start;gap:10px}}
+  </style>
+</head>
+<body>
+  <header><div class="brand">CareSignal <small>/ Clinician review</small></div><span id="mode" class="mode">Integrated demo · P4 active</span></header>
+  <main>
+    <div class="intro"><div><h1>Patient review queue</h1><p>Observed data flows through P1–P4 into the P5 review and alert-policy workflow.</p></div><button class="button" id="refresh">Refresh data</button></div>
+    <div class="notice">Synthetic demonstration only. Not clinically validated and not for patient care. Follow current local clinical protocols.</div>
+    <div class="layout">
+      <section class="panel"><div class="panel-title"><span>Patients</span><span id="count" class="muted"></span></div><div class="patient-search"><input id="search" placeholder="Search patient ID"></div><div id="patients" class="patient-list"></div></section>
+      <section id="detail" class="panel"><div class="empty">Select a patient to review the integrated evidence and alert-policy decision.</div></section>
+    </div>
+    <section class="panel audit"><div class="panel-title">Recent clinician actions <span class="muted">Recorded in the local audit trail</span></div><div id="audit" class="audit-list"></div></section>
+  </main>
+  <script>
+    let dashboardData={cases:[]},selectedPatient=null;
+    const escapeHtml=value=>String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
+    const number=(value,digits=1)=>Number.isFinite(Number(value))?Number(value).toFixed(digits):"—";
+    const safeLink=value=>{try{const url=new URL(value);return url.protocol==="https:"?url.href:""}catch{return""}};
+    async function load(){
+      const response=await fetch("/api/dashboard");
+      dashboardData=await response.json();
+      document.getElementById("mode").textContent=dashboardData.mode||"Integrated demo · P4 active";
+      renderPatients();renderAudit();
+      const current=dashboardData.cases.find(item=>item.patient_id===selectedPatient)||dashboardData.cases[0];
+      selectedPatient=current?.patient_id||null;
+      renderPatients();
+      if(current)renderDetail(current);
+      else document.getElementById("detail").innerHTML=`<div class="empty">${escapeHtml(dashboardData.error||"No patient observations are available.")}</div>`;
+    }
+    function renderPatients(){
+      const query=document.getElementById("search").value.toLowerCase();
+      const rows=dashboardData.cases.filter(item=>item.patient_id.toLowerCase().includes(query));
+      document.getElementById("count").textContent=`${rows.length} shown · ${dashboardData.patient_count||0} total`;
+      document.getElementById("patients").innerHTML=rows.map(item=>`<button class="patient ${item.patient_id===selectedPatient?"selected":""}" data-patient="${escapeHtml(item.patient_id)}"><span class="patient-row"><b>${escapeHtml(item.patient_id)}</b><span class="priority ${escapeHtml(item.priority)}">${escapeHtml(item.priority)}</span></span><div class="patient-meta">${escapeHtml(item.policy)} · ${escapeHtml(item.event_time.replace("T"," ").slice(0,16))}</div></button>`).join("")||'<div class="empty">No patients match.</div>';
+      document.querySelectorAll(".patient").forEach(button=>button.addEventListener("click",()=>selectPatient(button.dataset.patient)));
+    }
+    function selectPatient(patientId){selectedPatient=patientId;renderPatients();const current=dashboardData.cases.find(item=>item.patient_id===patientId);if(current)renderDetail(current);}
+    function renderDetail(item){
+      const vitals=item.vitals||{},baseline=item.baseline||{},agents=item.agents||{},trend=agents.trend||{},anomaly=agents.anomaly||{},risk=agents.risk||{},experience=agents.experience||{},fusion=agents.fusion||{},reasoning=item.clinical_reasoning||{};
+      const specs=[["heart_rate","Heart rate","bpm"],["spo2","SpO₂","%"],["respiratory_rate","Respiratory rate","/min"],["systolic_bp","Systolic BP","mmHg"],["diastolic_bp","Diastolic BP","mmHg"]];
+      const vitalCards=specs.map(([key,label,unit])=>`<div class="vital"><div class="vital-label">${label}</div><div class="vital-value">${number(vitals[key])}<span class="muted"> ${unit}</span></div><div class="vital-base">Baseline ${number(baseline[key])} ${unit}</div></div>`).join("");
+      const trendRows=(trend.trends||[]).map(value=>`<tr><td>${escapeHtml(value.vital)}</td><td>${escapeHtml(value.direction)}</td><td>${number(value.change)}</td><td>${number(value.directional_consistency*100,0)}%</td></tr>`).join("");
+      const factors=(item.factors||[]).map(value=>`<div class="factor">• ${escapeHtml(value)}</div>`).join("");
+      const history=(item.context?.relevant_history||[]).filter(value=>value!=="none recorded").join(", ")||"No history recorded";
+      const medications=(item.context?.current_medications||[]).filter(value=>value!=="none recorded").join(", ")||"None recorded";
+      const citations=(reasoning.citations||[]).map(citation=>{const href=safeLink(citation.source_url);return `<div class="factor"><b>${escapeHtml(citation.document_id)} · ${escapeHtml(citation.version)}</b> — ${escapeHtml(citation.locator)}${Number.isFinite(Number(citation.score))?` · score ${number(citation.score,3)}`:""}${href?` · <a href="${escapeHtml(href)}" target="_blank" rel="noopener noreferrer">source</a>`:""}<div class="muted">${escapeHtml(citation.chunk_text||"")}</div></div>`}).join("");
+      const similarCases=(reasoning.similar_cases_referenced||[]).map(caseId=>escapeHtml(caseId)).join(", ")||"No reviewed similar cases referenced";
+      const reasoningFactors=(reasoning.contributing_factors||[]).map(factor=>`<div class="factor">${escapeHtml(factor)}</div>`).join("");
+      document.getElementById("detail").innerHTML=`
+        <div class="detail-head"><div><h2>${escapeHtml(item.patient_id)}</h2><div class="muted">${escapeHtml(item.context?.age??"—")} years · ${escapeHtml(item.context?.sex||"")} · ${escapeHtml(item.quality)} signal quality</div></div><div class="muted">Latest observation<br><b>${escapeHtml(item.event_time.replace("T"," ").slice(0,16))}</b></div></div>
+        <div class="detail-content">
+          <section class="section"><h3>Observed vitals · personal replay baseline</h3><div class="vitals">${vitalCards}</div></section>
+          <div class="columns">
+            <section class="section"><h3>Patient context</h3><div class="agent"><p><b>History:</b> ${escapeHtml(history)}</p><p><b>Medication:</b> ${escapeHtml(medications)}</p><p><b>Creatinine:</b> ${escapeHtml(item.context?.recent_labs?.creatinine_mg_dl??"—")} mg/dL · <b>WBC:</b> ${escapeHtml(item.context?.recent_labs?.wbc_k_ul??"—")} K/µL</p></div></section>
+            <section class="section"><h3>P1 trend analysis</h3><div class="agent"><p>${escapeHtml(trend.explanation||"Trend unavailable.")}</p><p>Candidate: <b>${trend.candidate_deterioration_trend?"Yes":"No"}</b> · ${escapeHtml(trend.window_points??0)} readings in window</p><table class="trend-table"><thead><tr><th>Signal</th><th>Direction</th><th>Change</th><th>Consistency</th></tr></thead><tbody>${trendRows||'<tr><td colspan="4">Collecting readings.</td></tr>'}</tbody></table></div></section>
+          </div>
+          <section class="section"><h3>Integrated P2–P3 evidence</h3><div class="agent-list">
+            <div class="agent"><strong>P2 · Anomaly</strong><p>Confidence ${number(anomaly.probability*100,1)}% · ${anomaly.is_anomalous?"thresholded anomaly":"below anomaly threshold"}</p><p>Model version ${escapeHtml(anomaly.model_version??0)} · ${escapeHtml((anomaly.contributing_features||[]).join(", ")||"No weighted features yet")}</p></div>
+            <div class="agent"><strong>P3 · Risk assessment</strong><p>${escapeHtml(risk.risk_level||"LOW")} · score ${number(risk.risk_score,3)}</p><p>${escapeHtml((risk.contributing_factors||[]).join(", "))}</p></div>
+            <div class="agent"><strong>P3 · Experience memory</strong><p>Confidence ${number(experience.experience_confidence*100,1)}%</p><p>${escapeHtml(experience.retrieved_cases?.length||0)} reviewed similar cases retrieved.</p></div>
+            <div class="agent"><strong>P3 · Evidence fusion</strong><p>Final confidence ${number(fusion.final_confidence*100,1)}% · ${escapeHtml(fusion.risk_level||"LOW")} risk</p><p>${escapeHtml((fusion.evidence_summary||[]).join(" · "))}</p></div>
+          </div></section>
+          <section class="section"><h3>P5 · Alert policy evidence</h3><div class="agent"><p><b>${escapeHtml(item.policy)} · ${escapeHtml(item.priority)} priority</b></p><p>${escapeHtml(item.policy_reason)}</p>${factors}</div></section>
+          <section class="section"><h3>P4 · Clinical knowledge and reasoning</h3><div class="p4"><b>${escapeHtml(reasoning.model||"P4 unavailable")} · confidence ${number(reasoning.confidence*100,1)}%</b><p>${escapeHtml(reasoning.explanation||"P4 explanation is unavailable.")}</p><p><b>Contributing factors</b></p>${reasoningFactors||'<div class="factor">No additional factors identified.</div>'}<p><b>Suggested action for clinician review</b></p><p>${escapeHtml(reasoning.recommended_action||"No recommendation available.")}</p><p><b>Retrieved protocol citations</b></p>${citations||'<div class="factor">No matching protocol passages were retrieved.</div>'}<p><b>Similar cases:</b> ${similarCases}</p><p>${escapeHtml(reasoning.disclaimer||"Decision support only; not a diagnosis or treatment order.")}</p></div></section>
+        </div>
+        <div class="actions"><b>Clinician decision</b><div class="muted">${item.last_action?`Last decision: ${escapeHtml(item.last_action.action)}`:"Your action and optional reason are recorded for review."}</div><div class="action-buttons"><button class="button" data-action="Accept">Accept</button><button class="button dismiss" data-action="Dismiss">Dismiss</button><button class="button" data-action="Defer">Defer</button><button class="button" data-action="Investigate">Investigate</button></div><div class="reason"><input id="reason" maxlength="1000" placeholder="Optional reason or feedback"><button class="button" id="save-note">Save note</button></div><div class="muted" style="margin-top:7px">Clinician action is not converted to an anomaly label; P2 learns only from explicit anomaly feedback.</div></div>`;
+      document.querySelectorAll("[data-action]").forEach(button=>button.addEventListener("click",()=>submitAction(button.dataset.action)));
+      document.getElementById("save-note").addEventListener("click",()=>submitAction("Investigate"));
+    }
+    async function submitAction(action){
+      const reason=document.getElementById("reason")?.value||"";
+      const response=await fetch("/api/action",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({patient_id:selectedPatient,action,reason})});
+      const result=await response.json();
+      if(!response.ok)throw new Error(result.error||"Could not save clinician action");
+      await load();
+    }
+    function renderAudit(){
+      const rows=[...(dashboardData.audit||[])].reverse();
+      document.getElementById("audit").innerHTML=rows.map(row=>`<div class="audit-row"><div><b>${escapeHtml(row.patient_id)}</b> · ${escapeHtml(row.action)}${row.reason?` · ${escapeHtml(row.reason)}`:""}</div><span class="muted">${escapeHtml((row.timestamp||"").replace("T"," ").slice(0,16))}</span></div>`).join("")||'<div class="empty">No clinician actions recorded yet.</div>';
+    }
+    document.getElementById("refresh").addEventListener("click",()=>load().catch(showError));
+    document.getElementById("search").addEventListener("input",renderPatients);
+    function showError(error){document.getElementById("detail").innerHTML=`<div class="error">${escapeHtml(error.message||error)}</div>`;}
+    load().catch(showError);
+  </script>
+</body>
+</html>

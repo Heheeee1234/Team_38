@@ -1,0 +1,7 @@
+{
+  "schema_version": "1.0.0",
+  "cadence_seconds": 60,
+  "scenario_weights": {"stable": 0.22, "artifact_only": 0.08, "post_physiotherapy": 0.08, "anxiety": 0.08, "ambulation": 0.08, "respiratory_decline": 0.10, "sepsis_like": 0.10, "beta_blocked_sepsis": 0.07, "opioid_respiratory_depression": 0.07, "masked_hypoxemia": 0.06, "haemodynamic_shock": 0.06},
+  "default_minutes": 180,
+  "noise": {"heart_rate": 2.0, "spo2": 0.5, "respiratory_rate": 1.0, "systolic_bp": 3.0, "diastolic_bp": 2.0}
+}

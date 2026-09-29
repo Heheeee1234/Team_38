@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0-p4",
+  "provider": "groq",
+  "model": "openai/gpt-oss-20b",
+  "rag": {
+    "backend": "dense-local",
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "index_path": "data/derived/p4_vector_index.sqlite3",
+    "top_k_default": 3,
+    "max_chunk_chars": 700
+  },
+  "reasoning": {"max_tool_iterations": 6},
+  "mode": "local_retrieval_groq_reasoning",
+  "note": "Embeddings, vector index, retrieval, and tool execution are local. Groq receives evidence only when --groq is requested."
+}

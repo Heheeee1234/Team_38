@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "seed": 20260918,
+  "patients": 60,
+  "minutes": 180,
+  "run_id": "synthetic-20260918-ce3df13937",
+  "config_sha256": "b4f8e28424b0376421cd06edaf221988f0c9f967a4201f512ed4dcea9ebd3fe6",
+  "params_sha256": "125b9ec00212c3677b487d84b19144185dc2b72c6ef3cdd5dc877d6be17af410",
+  "knowledge_corpus_sha256": "6dd3f6761d9809e4b1625c82b087d1985a100bf756183d7f21380dde927fe18a",
+  "files": {
+    "evaluation_labels.jsonl": "f33f6e3f60116d6d065bb895bd9c83121a730355cfb01c1762de45c4c4988b26",
+    "ground_truth_episodes.jsonl": "83a3940537bd7789d12b12324f7a8abbefefd34ad306b5c7b61945dafa2b3747",
+    "knowledge_corpus.jsonl": "f05cf2356873dbf1d227dc850980924468611e5ad6448e887bb5f7cbc5e81e84",
+    "patient_context.jsonl": "21cc2354eb727ce23d0bfc0ac911d16ee11498bca116dcd9900c5fe662c05d22",
+    "vitals_observed.jsonl": "39102ed41b866688bd5c8325cea43ea9ede949d333bcebc5d951c5ab71b7fbdf"
+  }
+}

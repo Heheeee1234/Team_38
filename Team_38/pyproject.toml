@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "clinical-data-gen"
+version = "0.1.0"
+description = "Reproducible synthetic streaming data for deterioration-copilot evaluation"
+requires-python = ">=3.10"
+dependencies = [
+    "confluent-kafka>=2.3",
+    "numpy>=1.24",
+    "pandas>=2.0",
+]
+
+[project.optional-dependencies]
+p4-local = ["sentence-transformers>=3.0"]
+p4-groq = ["groq>=0.11"]
+p4 = ["sentence-transformers>=3.0", "groq>=0.11"]
+
+[project.scripts]
+clinical-data-gen = "clinical_data_gen.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src", "."]
+include = ["clinical_data_gen*", "clinical_reasoning*", "ingestion*", "trend_agent*"]
+
+[tool.setuptools]
+py-modules = ["experience", "fusion", "risk", "trend"]
+package-dir = {"" = "src", "trend_agent" = "trend_agent"}
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+
+[dependency-groups]
+dev = [
+    "matplotlib>=3.10.9",
+    "pytest>=9.1.1",
+]
